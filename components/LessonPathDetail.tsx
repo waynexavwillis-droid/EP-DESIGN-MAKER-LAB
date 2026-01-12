@@ -106,12 +106,12 @@ const LessonPathDetail: React.FC<LessonPathDetailProps> = ({ currentLevelIndex, 
             </div>
 
             {/* Things used in this project - LIGHT MODE THEME */}
-            <div className="bg-white text-slate-900 rounded-[2.5rem] p-8 md:p-10 shadow-xl shadow-slate-200/40 border border-slate-100 space-y-8 animate-in fade-in duration-500">
-              <h2 className="text-2xl font-black tracking-tight">Things used in this project</h2>
+            <div className="bg-white text-slate-900 rounded-[2.5rem] p-8 md:p-10 shadow-xl shadow-slate-200/40 border border-slate-100 space-y-8">
+              <h2 className="text-2xl font-black">Things used in this project</h2>
               
-              <div className="space-y-10">
+              <div className="space-y-8">
                 <div>
-                  <h3 className="text-lg font-black mb-4 flex items-center gap-2 text-slate-800">
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-slate-800">
                     <i className="fa-solid fa-microchip text-indigo-500"></i> Hardware components
                   </h3>
                   <div className="divide-y divide-slate-100 border-t border-slate-100">
@@ -119,16 +119,16 @@ const LessonPathDetail: React.FC<LessonPathDetailProps> = ({ currentLevelIndex, 
                       <div key={i} className="py-5 flex items-center justify-between group">
                         <div className="flex items-center gap-5">
                           {item.icon ? (
-                            <img src={item.icon} className="w-12 h-12 rounded-xl bg-slate-50 object-cover border border-slate-200 p-1" alt="" />
+                            <img src={item.icon} className="w-12 h-12 rounded-xl bg-slate-50 object-cover border border-slate-200" alt="" />
                           ) : (
                             <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-300">
                               <i className="fa-solid fa-cube text-sm"></i>
                             </div>
                           )}
-                          <span className="text-sm font-bold text-slate-700 group-hover:text-indigo-600 transition-colors">{item.name}</span>
+                          <span className="text-sm font-bold text-slate-700">{item.name}</span>
                         </div>
                         <div className="flex items-center gap-8">
-                          <span className="text-sm font-black text-slate-400 tracking-tighter">× {item.quantity}</span>
+                          <span className="text-xs font-black text-slate-400 uppercase tracking-widest">× {item.quantity}</span>
                           <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button className="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all shadow-sm">
                               <i className="fa-solid fa-shopping-cart text-[11px]"></i>
@@ -143,17 +143,17 @@ const LessonPathDetail: React.FC<LessonPathDetailProps> = ({ currentLevelIndex, 
                   </div>
                 </div>
 
-                <div className="pt-2">
-                  <h3 className="text-lg font-black mb-4 flex items-center gap-2 text-slate-800">
+                <div className="pt-4">
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-slate-800">
                     <i className="fa-solid fa-globe text-indigo-500"></i> Software apps and online services
                   </h3>
-                  <div className="flex items-center gap-5 p-5 bg-slate-50 rounded-2xl border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/30 transition-all cursor-pointer group shadow-sm">
+                  <div className="flex items-center gap-5 p-5 bg-slate-50 rounded-2xl border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50/30 transition-all cursor-pointer group">
                     <img src="https://microblocks.fun/img/icon.png" className="w-12 h-12 rounded-xl shadow-sm border border-white" alt="MicroBlocks" />
                     <div>
                       <span className="text-sm font-black text-indigo-600 group-hover:underline">MicroBlocks</span>
-                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Visual Blocks Programming</p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Visual Programming</p>
                     </div>
-                    <i className="fa-solid fa-arrow-up-right-from-square ml-auto text-slate-300 group-hover:text-indigo-500 text-xs transition-colors"></i>
+                    <i className="fa-solid fa-arrow-up-right-from-square ml-auto text-slate-300 group-hover:text-indigo-500 text-xs"></i>
                   </div>
                 </div>
               </div>

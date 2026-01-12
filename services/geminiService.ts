@@ -2,12 +2,6 @@
 import { GoogleGenAI } from "@google/genai";
 
 export const getAIAssistantResponse = async (userPrompt: string, context: string) => {
-  // Check if API key exists before attempting initialization
-  if (!process.env.API_KEY) {
-    console.warn("API Key is not defined in the environment.");
-    return "I'm having trouble accessing my creative circuits (API key missing). Please ensure your environment is set up correctly!";
-  }
-
   // Initialize right before call to ensure up-to-date API key
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   

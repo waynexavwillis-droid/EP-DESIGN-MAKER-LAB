@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import AIAssistant from './components/AIAssistant';
 import LabLayoutView from './components/tabs/LabLayoutView';
@@ -14,39 +14,9 @@ const App: React.FC = () => {
   const [isLearningMode, setIsLearningMode] = useState(false);
   const [learningLevelIndex, setLearningLevelIndex] = useState(0);
   
-  // Initialize state from localStorage to persist login across redirects/refreshes
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-    return localStorage.getItem('makerlab_auth') === 'true';
-  });
-  
+  // New State for Login/Account
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
-
-  // Dynamically generate the login URL to ensure the 'return' parameter points back to the user's current host
-  const getLoginUrl = () => {
-    const baseUrl = "https://ep--design-maker-lab.web.app/login.html";
-    const currentUrl = window.location.origin + window.location.pathname;
-    return `${baseUrl}?return=${encodeURIComponent(currentUrl)}`;
-  };
-
-  // Immediate detection of successful login from URL parameters
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('login') === 'success') {
-      // User just arrived from a successful login
-      setIsLoggedIn(true);
-      localStorage.setItem('makerlab_auth', 'true');
-      
-      // Clean the URL so the success flag doesn't stay in the address bar
-      const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
-      window.history.replaceState({}, document.title, cleanUrl);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem('makerlab_auth');
-    setShowAccountMenu(false);
-  };
 
   const startLearning = () => {
     setLearningLevelIndex(0);
@@ -62,66 +32,6 @@ const App: React.FC = () => {
   };
 
   const renderContent = () => {
-    if (!isLoggedIn) {
-      return (
-        <div className="max-w-2xl mx-auto py-12 px-6 text-center space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="space-y-4">
-            <div className="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-[2rem] flex items-center justify-center mx-auto mb-6 text-3xl shadow-inner border border-indigo-100">
-              <i className="fa-solid fa-shield-halved"></i>
-            </div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight">Access Your Maker Workspace</h1>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2">
-              <span>🔐</span> Google Login Required
-            </p>
-          </div>
-
-          <div className="bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-xl shadow-indigo-100/20 space-y-8 text-left relative overflow-hidden">
-            <p className="text-slate-600 font-medium text-lg leading-relaxed">
-              To access the Design Maker Lab, please sign in with your Google account. 
-            </p>
-            
-            <ul className="space-y-6">
-              {[
-                "Click the button below to open the login portal in a new tab.",
-                "Sign in securely with your Google account.",
-                "After signing in, this tab will update to your dashboard."
-              ].map((step, i) => (
-                <li key={i} className="flex items-start gap-5">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black shrink-0 border border-indigo-100 mt-1">
-                    {i + 1}
-                  </div>
-                  <span className="text-slate-700 font-bold leading-tight pt-2">{step}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="pt-6 border-t border-slate-50">
-              <a 
-                href={getLoginUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-5 bg-indigo-600 text-white rounded-[1.5rem] font-black text-lg flex items-center justify-center gap-4 shadow-2xl shadow-indigo-200 hover:bg-indigo-700 active:scale-[0.98] transition-all group"
-              >
-                <i className="fa-brands fa-google"></i>
-                Login with Google
-                <i className="fa-solid fa-arrow-up-right-from-square text-[12px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-              </a>
-              <p className="text-center mt-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] leading-relaxed">
-                Opening in a new tab ensures maximum compatibility <br /> with workspace security settings.
-              </p>
-            </div>
-          </div>
-          
-          <button 
-            onClick={() => { setIsLoggedIn(true); localStorage.setItem('makerlab_auth', 'true'); }}
-            className="text-slate-300 hover:text-slate-500 text-[10px] font-bold transition-colors uppercase tracking-[0.2em]"
-          >
-            (Skip to Preview Mode)
-          </button>
-        </div>
-      );
-    }
-
     if (isLearningMode) {
       return (
         <LessonPathDetail 
@@ -143,6 +53,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-indigo-50/30 pb-20">
+      {/* Decorative top bar */}
       <div className="h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 w-full fixed top-0 z-[60]"></div>
       
       <header className={`pt-8 px-6 max-w-7xl mx-auto transition-opacity duration-300 ${isLearningMode ? 'opacity-0 pointer-events-none absolute' : 'opacity-100'}`}>
@@ -157,18 +68,22 @@ const App: React.FC = () => {
              </div>
           </div>
 
+          {/* Account/Login Section Replacement */}
           <div className="flex items-center gap-4 relative">
             {!isLoggedIn ? (
               <div className="flex items-center gap-2">
-                <a 
-                  href={getLoginUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-black shadow-lg shadow-indigo-100 hover:bg-indigo-700 active:scale-95 transition-all flex items-center gap-2"
+                <button 
+                  onClick={() => setIsLoggedIn(true)}
+                  className="px-5 py-2 text-slate-600 font-bold text-xs hover:text-slate-900 transition-colors"
                 >
-                  <i className="fa-brands fa-google"></i>
                   Sign In
-                </a>
+                </button>
+                <button 
+                  onClick={() => setIsLoggedIn(true)}
+                  className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-xs font-black shadow-lg shadow-indigo-100 hover:bg-indigo-700 active:scale-95 transition-all"
+                >
+                  Create Account
+                </button>
               </div>
             ) : (
               <div className="flex items-center gap-4">
@@ -213,7 +128,7 @@ const App: React.FC = () => {
                       </button>
                       <div className="h-px bg-slate-50 my-2"></div>
                       <button 
-                        onClick={handleLogout}
+                        onClick={() => { setIsLoggedIn(false); setShowAccountMenu(false); }}
                         className="w-full text-left px-4 py-2.5 rounded-xl text-xs font-bold text-rose-500 hover:bg-rose-50 flex items-center gap-3 transition-colors"
                       >
                         <i className="fa-solid fa-sign-out-alt"></i> Sign Out
@@ -226,29 +141,28 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {isLoggedIn && (
-          <div className="bg-white p-1.5 rounded-2xl flex items-center gap-1 shadow-sm border border-slate-100 max-w-fit mb-10 overflow-x-auto">
-            {[
-              { id: 'Lab Layout', icon: 'fa-hammer' },
-              { id: 'Materials', icon: 'fa-box-open' },
-              { id: 'Schedule', icon: 'fa-calendar-days' },
-              { id: 'Project Gallery', icon: 'fa-images' }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as TabType)}
-                className={`px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all whitespace-nowrap ${
-                  activeTab === tab.id 
-                    ? 'bg-purple-600 text-white shadow-lg shadow-purple-200' 
-                    : 'text-slate-500 hover:bg-slate-50'
-                }`}
-              >
-                <i className={`fa-solid ${tab.icon} ${activeTab === tab.id ? 'text-white' : 'text-slate-400'}`}></i>
-                {tab.id}
-              </button>
-            ))}
-          </div>
-        )}
+        {/* Tab Navigation */}
+        <div className="bg-white p-1.5 rounded-2xl flex items-center gap-1 shadow-sm border border-slate-100 max-w-fit mb-10 overflow-x-auto">
+          {[
+            { id: 'Lab Layout', icon: 'fa-hammer' },
+            { id: 'Materials', icon: 'fa-box-open' },
+            { id: 'Schedule', icon: 'fa-calendar-days' },
+            { id: 'Project Gallery', icon: 'fa-images' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as TabType)}
+              className={`px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all whitespace-nowrap ${
+                activeTab === tab.id 
+                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-200' 
+                  : 'text-slate-500 hover:bg-slate-50'
+              }`}
+            >
+              <i className={`fa-solid ${tab.icon} ${activeTab === tab.id ? 'text-white' : 'text-slate-400'}`}></i>
+              {tab.id}
+            </button>
+          ))}
+        </div>
       </header>
 
       <main className={`max-w-7xl mx-auto px-6 transition-all duration-500 ${isLearningMode ? 'mt-8' : ''}`}>
@@ -257,7 +171,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {isLoggedIn && <AIAssistant />}
+      <AIAssistant />
     </div>
   );
 };
