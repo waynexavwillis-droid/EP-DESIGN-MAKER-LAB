@@ -10,6 +10,8 @@ import ProjectDetailView from './components/ProjectDetailView';
 import ProjectCreationModal from './components/ProjectCreationModal';
 import { TabType, Project, Lesson } from './types';
 import { PROJECTS, LESSONS } from './constants';
+// Initialize Firebase connection on app load
+import './services/firebase';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('Lab Layout');

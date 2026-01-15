@@ -1,6 +1,6 @@
 
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 // Your web app's Firebase configuration from the Firebase Console
 const firebaseConfig = {
@@ -14,22 +14,12 @@ const firebaseConfig = {
   measurementId: "G-V5FJNS8SES"
 };
 
-// Initialize Firebase
+// Initialize Firebase app for console connection
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
 
-export const signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
-    return result.user;
-  } catch (error) {
-    console.error("Firebase Auth Error:", error);
-    throw error;
-  }
-};
+// Fix: Implementing and exporting signInWithGoogle for component usage
+const provider = new GoogleAuthProvider();
+export const signInWithGoogle = () => signInWithPopup(auth, provider);
 
-export const logout = () => signOut(auth);
-
-export { onAuthStateChanged };
-export type { User };
+export default app;
