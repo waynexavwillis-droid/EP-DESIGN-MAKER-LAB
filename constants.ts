@@ -102,20 +102,22 @@ export const PROJECTS: Project[] = [
     grade: 'Primary 3', 
     category: 'Building Structures', 
     description: 'A medieval castle made entirely from recycled cardboard boxes with working drawbridge.',
+    fullDescription: 'Emma wanted to create a sustainable architectural model that was interactive. This project explores recycled materials and simple mechanical linkages. The drawbridge is powered by a manual pulley system made from string and popsicle sticks.',
+    materials: [
+      { name: 'Double-walled Cardboard', quantity: '3 Sheets' },
+      { name: 'Popsicle Sticks', quantity: '20 pcs' },
+      { name: 'Hot Glue Gun', quantity: '1 unit' },
+      { name: 'Nylon String', quantity: '2 Meters' }
+    ],
+    steps: [
+      { title: 'Blueprinting', icon: 'fa-pencil', content: 'Sketching the castle layout and measuring the wall heights to ensure stability.' },
+      { title: 'Cutting & Sizing', icon: 'fa-scissors', content: 'Using safety cutters to shape the battlements and the main gate.' },
+      { title: 'Pulley Assembly', icon: 'fa-gear', content: 'Installing the popsicle stick axle to allow the drawbridge to lift and lower.' },
+      { title: 'Final Painting', icon: 'fa-paint-brush', content: 'Applying grey stone textures using sponges and water-based acrylics.' }
+    ],
     likes: 42,
     imageUrl: 'https://images.unsplash.com/photo-1598114441544-0b4274092f69?auto=format&fit=crop&q=80&w=600',
     award: 'Best Design Award'
-  },
-  { 
-    id: 'p2', 
-    title: 'LEGO Ferris Wheel', 
-    student: 'Marcus L.', 
-    grade: 'Primary 5', 
-    category: 'Building Structures', 
-    description: 'Working ferris wheel with motorized rotation using LEGO Technic parts.',
-    likes: 38,
-    imageUrl: 'https://images.unsplash.com/photo-1585366119957-e9730b6d0f60?auto=format&fit=crop&q=80&w=600',
-    award: 'Innovation Award'
   },
   { 
     id: 'p3', 
@@ -124,29 +126,22 @@ export const PROJECTS: Project[] = [
     grade: 'Primary 6', 
     category: 'Microcontrollers', 
     description: 'Micro:bit sensor system that alerts when plants need water using moisture sensors.',
+    fullDescription: 'Aisha noticed her classroom plants were often dry. She engineered a solution using the micro:bit to measure soil conductivity. If the moisture drops below 40%, the micro:bit displays a sad face and sends a Bluetooth alert to her tablet.',
+    materials: [
+      { name: 'micro:bit V2', quantity: '1 unit', icon: 'https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&q=80&w=100' },
+      { name: 'Soil Moisture Sensor', quantity: '1 pc' },
+      { name: 'Crocodile Clips', quantity: '4 pcs' },
+      { name: 'AAA Battery Pack', quantity: '1 unit' }
+    ],
+    steps: [
+      { title: 'Hardware Wiring', icon: 'fa-plug', content: 'Connecting the moisture sensor to the P0 and 3V pins of the micro:bit.' },
+      { title: 'Coding Logic', icon: 'fa-code', content: 'Writing a "forever" loop that reads the analog value and maps it to a percentage.' },
+      { title: 'Calibration', icon: 'fa-vial', content: 'Testing the sensor in dry vs. wet soil to find the perfect "alert" threshold.' },
+      { title: 'Housing Design', icon: 'fa-box', content: 'Creating a water-resistant 3D printed case to protect the electronics.' }
+    ],
     likes: 51,
     imageUrl: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=600',
     award: 'STEM Excellence Award'
-  },
-  { 
-    id: 'p4', 
-    title: 'Rainbow Butterfly Art', 
-    student: 'Sofia R.', 
-    grade: 'Primary 2', 
-    category: 'Craft & Art', 
-    description: 'Colorful 3D butterfly created using 3D pen with vibrant filament colors.',
-    likes: 35,
-    imageUrl: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&q=80&w=600'
-  },
-  { 
-    id: 'p5', 
-    title: 'Ocean Diorama', 
-    student: 'Ethan P.', 
-    grade: 'Primary 4', 
-    category: 'Craft & Art', 
-    description: 'Underwater scene with paper mache sea creatures and recycled materials.',
-    likes: 29,
-    imageUrl: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=600'
   },
   { 
     id: 'p6', 
@@ -155,6 +150,19 @@ export const PROJECTS: Project[] = [
     grade: 'Primary 5', 
     category: 'Robotics', 
     description: 'Autonomous robot that follows black lines using infrared sensors and micro:bit.',
+    fullDescription: 'Daniel build this robot to navigate a custom maze. It uses two IR sensors to detect contrast. By modulating the motor speeds based on sensor input, the robot can follow complex paths smoothly without manual control.',
+    materials: [
+      { name: 'Ring:bit V2 Car Kit', quantity: '1 unit' },
+      { name: 'micro:bit V2', quantity: '1 unit' },
+      { name: 'Tracking Sensors', quantity: '2 units' },
+      { name: 'AA Batteries', quantity: '3 units' }
+    ],
+    steps: [
+      { title: 'Chassis Assembly', icon: 'fa-wrench', content: 'Assembling the wheels, servos, and the Ring:bit breakout board.' },
+      { title: 'Sensor Alignment', icon: 'fa-bullseye', content: 'Mounting the IR sensors at the correct height for optimal line detection.' },
+      { title: 'Algorithm Dev', icon: 'fa-brain', content: 'Implementing a "P-Controller" logic to smooth out the turning movements.' },
+      { title: 'Track Testing', icon: 'fa-road', content: 'Refining the code to handle sharp 90-degree turns and gaps in the line.' }
+    ],
     likes: 47,
     imageUrl: 'https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?auto=format&fit=crop&q=80&w=600',
     award: 'Robotics Champion'
@@ -169,6 +177,7 @@ export const LESSONS: Lesson[] = [
     difficulty: Difficulty.BEGINNER,
     duration: '45 mins',
     description: 'The foundation for every print. Master orientation, supports, and layer height using Ultimaker Cura.',
+    projectGoal: 'This project focuses on transforming a digital 3D model into a physical object. You will learn how a printer "reads" your designs and how to optimize settings to ensure your first prints are successful and strong. We will be designing and slicing a customized nameplate for your lab station.',
     imageUrl: 'https://images.unsplash.com/photo-1633526543814-9718c8922b7a?auto=format&fit=crop&q=80&w=600',
     author: 'CiferTech',
     publishedDate: 'January 10, 2024',
@@ -187,6 +196,7 @@ export const LESSONS: Lesson[] = [
     difficulty: Difficulty.INTERMEDIATE,
     duration: '90 mins',
     description: 'Move beyond single colors. Learn to configure dual nozzles for complex multi-material prototypes.',
+    projectGoal: 'In this intermediate challenge, you will build a multi-part mechanical gear system. By utilizing dual-extrusion, you will learn how to print internal moving parts using dissolvable support materials, allowing you to create complex mechanisms that cannot be made with traditional single-nozzle printers.',
     imageUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600',
     author: 'CiferTech',
     publishedDate: 'January 15, 2024',
@@ -205,6 +215,7 @@ export const LESSONS: Lesson[] = [
     difficulty: Difficulty.HARD,
     duration: '180 mins',
     description: 'Stress testing and tolerances. Design mechanical parts that snap together perfectly with zero post-processing.',
+    projectGoal: 'This advanced project challenges you to design a modular enclosure for a micro-controller. You will need to account for precise tolerances to ensure ports align and the case snaps shut without glue. This is where engineering meets artistry—creating a professional, functional product ready for use.',
     imageUrl: 'https://images.unsplash.com/photo-1581092341396-d99612958c01?auto=format&fit=crop&q=80&w=600',
     author: 'CiferTech',
     publishedDate: 'January 25, 2024',

@@ -1,14 +1,21 @@
 
 import React, { useState, useMemo } from 'react';
-import { PROJECTS } from '../../constants';
+import { Project, Lesson } from '../../types';
+import { LESSONS } from '../../constants';
 
-const ProjectGalleryView: React.FC = () => {
+interface ProjectGalleryViewProps {
+  projects: Project[];
+  onSelectProject?: (project: Project) => void;
+  onOpenCreation?: () => void;
+}
+
+const ProjectGalleryView: React.FC<ProjectGalleryViewProps> = ({ projects, onSelectProject, onOpenCreation }) => {
   const [activeFilter, setActiveFilter] = useState('All Projects');
   const [searchQuery, setSearchQuery] = useState('');
-  const filters = ['All Projects', 'Building Structures', 'Microcontrollers', 'Craft & Art', 'Robotics'];
+  const filters = ['All Projects', 'Building Structures', 'Microcontrollers', 'Craft & Art', 'Robotics', '3D Printing Mastery'];
 
   const filteredProjects = useMemo(() => {
-    return PROJECTS.filter(project => {
+    return projects.filter(project => {
       const matchesCategory = activeFilter === 'All Projects' || project.category === activeFilter;
       const matchesSearch = 
         project.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -16,33 +23,25 @@ const ProjectGalleryView: React.FC = () => {
       
       return matchesCategory && matchesSearch;
     });
-  }, [activeFilter, searchQuery]);
+  }, [activeFilter, searchQuery, projects]);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 relative">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-bold text-slate-800 mb-2">Project Gallery</h1>
-          <p className="text-slate-500 text-sm">Showcasing amazing creations from our young makers</p>
+          <p className="text-slate-500 text-sm">Discover and learn from community submissions</p>
         </div>
         
         <div className="relative max-w-sm w-full">
           <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
           <input 
             type="text" 
-            placeholder="Search projects or students..." 
+            placeholder="Search projects..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-300 transition-all"
+            className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all"
           />
-          {searchQuery && (
-            <button 
-              onClick={() => setSearchQuery('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500 transition-colors"
-            >
-              <i className="fa-solid fa-circle-xmark"></i>
-            </button>
-          )}
         </div>
       </header>
 
@@ -65,51 +64,55 @@ const ProjectGalleryView: React.FC = () => {
       {filteredProjects.length > 0 ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map(project => (
-            <div key={project.id} className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+            <div 
+              key={project.id} 
+              onClick={() => onSelectProject?.(project)}
+              className="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all group cursor-pointer"
+            >
               <div className="relative aspect-[4/3] overflow-hidden">
-                <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <img src={project.imageUrl || 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=800'} alt={project.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 {project.award && (
-                  <div className="absolute top-4 right-4 bg-amber-400 text-white px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 shadow-lg">
-                    <i className="fa-solid fa-medal"></i>
+                  <div className="absolute top-4 right-4 bg-emerald-500 text-white px-3 py-1 rounded-full text-[10px] font-black flex items-center gap-1.5 shadow-lg">
+                    <i className="fa-solid fa-certificate"></i>
                     {project.award}
                   </div>
                 )}
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-bold text-slate-800 mb-1">{project.title}</h3>
-                <div className="flex items-center gap-2 text-xs text-slate-400 font-bold uppercase mb-4">
-                  <i className="fa-solid fa-user-circle"></i>
+                <div className="flex items-center gap-2 text-[10px] text-slate-400 font-black uppercase mb-4 tracking-widest">
                   {project.student} | {project.grade}
                 </div>
-                <div className="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-[10px] font-bold inline-block mb-4">
+                <div className="px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-[10px] font-black inline-block mb-4">
                   {project.category}
                 </div>
-                <p className="text-xs text-slate-500 font-medium leading-relaxed mb-8">
+                <p className="text-xs text-slate-500 font-medium leading-relaxed mb-8 line-clamp-2">
                   {project.description}
                 </p>
-                
                 <div className="pt-4 border-t border-slate-50 flex items-center justify-between">
-                  <button className="flex items-center gap-2 text-slate-400 hover:text-pink-500 transition-colors">
-                    <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center border border-slate-100">
-                      <i className="fa-solid fa-heart text-xs"></i>
-                    </div>
-                    <span className="text-xs font-bold">{project.likes}</span>
-                  </button>
-                  <button className="text-[10px] font-bold text-slate-400 hover:text-purple-600 transition-all">
-                    Tap to appreciate!
-                  </button>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">View Workflow</span>
+                  <i className="fa-solid fa-arrow-right text-slate-300 group-hover:text-purple-600 transition-colors"></i>
                 </div>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-24 text-slate-400 border-2 border-dashed border-slate-100 rounded-[2rem]">
-          <i className="fa-solid fa-folder-open text-4xl mb-4 opacity-20"></i>
-          <p className="font-bold">No projects found</p>
-          <p className="text-sm">Try adjusting your search or category filter</p>
+        <div className="flex flex-col items-center justify-center py-24 text-slate-400">
+          <i className="fa-solid fa-box-open text-4xl mb-4 opacity-20"></i>
+          <p className="font-bold">No projects found in this category.</p>
         </div>
       )}
+
+      {/* Floating Add Button */}
+      <div className="fixed bottom-24 right-6 z-50">
+        <button 
+          onClick={onOpenCreation}
+          className="w-14 h-14 rounded-full flex items-center justify-center text-white text-xl shadow-2xl transition-all duration-300 active:scale-95 bg-gradient-to-tr from-indigo-600 to-purple-600 hover:rotate-90"
+        >
+          <i className="fa-solid fa-plus"></i>
+        </button>
+      </div>
     </div>
   );
 };

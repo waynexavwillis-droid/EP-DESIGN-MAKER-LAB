@@ -20,6 +20,7 @@ export interface Lesson {
   difficulty: Difficulty;
   duration: string;
   description: string;
+  projectGoal: string;
   imageUrl: string;
   author?: string;
   publishedDate?: string;
@@ -41,6 +42,12 @@ export interface Material {
   icon?: string;
 }
 
+export interface ProjectMaterial {
+  name: string;
+  quantity: string;
+  icon?: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -48,6 +55,9 @@ export interface Project {
   grade: string;
   category: string;
   description: string;
+  fullDescription?: string; // Detailed narrative
+  materials?: ProjectMaterial[]; // Hardware/Materials list
+  steps?: LessonStep[]; // Build steps
   likes: number;
   imageUrl: string;
   award?: string;
