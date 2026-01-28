@@ -194,24 +194,38 @@ const App: React.FC = () => {
              />
           </div>
 
-          <div className="flex items-center gap-4">
-             <div className="text-xs font-black text-indigo-600 uppercase tracking-widest hidden sm:block">Open Access Workspace</div>
-             <div className="flex items-center gap-3 group relative cursor-pointer" onClick={handleSignOut} title="Click to Sign Out">
-               <div className="text-right hidden sm:block">
-                 <div className="text-[10px] font-black text-slate-900 leading-none uppercase">{user.name}</div>
-                 <div className="text-[8px] font-bold text-slate-400 uppercase">{user.email}</div>
+          <div className="flex items-center gap-6">
+             <div className="text-xs font-black text-indigo-600 uppercase tracking-widest hidden lg:block">Open Access Workspace</div>
+             
+             <div className="flex items-center gap-4">
+               {/* User Info Group (Shifted Left) */}
+               <div className="flex items-center gap-3">
+                 <div className="text-right hidden sm:block">
+                   <div className="text-[10px] font-black text-slate-900 leading-none uppercase">{user.name}</div>
+                   <div className="text-[8px] font-bold text-slate-400 uppercase">{user.email}</div>
+                 </div>
+                 <div className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 shadow-sm overflow-hidden">
+                   {user.picture ? (
+                     <img src={user.picture} alt={user.name} className="w-full h-full object-cover" />
+                   ) : (
+                     <i className="fa-solid fa-user"></i>
+                   )}
+                 </div>
                </div>
-               <div className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 shadow-sm overflow-hidden group-hover:border-rose-500 transition-colors">
-                 {user.picture ? (
-                   <img src={user.picture} alt={user.name} className="w-full h-full object-cover" />
-                 ) : (
-                   <i className="fa-solid fa-user"></i>
-                 )}
-               </div>
-               {/* Sign Out Tooltip Overlay */}
-               <div className="absolute top-full right-0 mt-2 bg-slate-900 text-white text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none">
-                 Sign Out
-               </div>
+
+               {/* Dedicated Sign Out Button */}
+               <button 
+                 onClick={handleSignOut}
+                 className="group relative w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-all shadow-sm active:scale-90"
+                 title="Sign Out"
+               >
+                 <i className="fa-solid fa-right-from-bracket text-sm"></i>
+                 
+                 {/* Tooltip */}
+                 <div className="absolute top-full right-0 mt-3 px-3 py-1.5 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50 pointer-events-none shadow-xl">
+                   Secure Logout
+                 </div>
+               </button>
              </div>
           </div>
         </div>
